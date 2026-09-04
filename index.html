@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="public/Images Done/Logo de la semaine.png" />
+    
+    <!-- Primary SEO -->
+    <title>Semaine de la Jeunesse Lougatoise 2026 | Du 20 au 26 Septembre</title>
+    <meta name="description" content="Site officiel de la Semaine de la Jeunesse Lougatoise (20-26 septembre 2026 à Louga, Sénégal). Thème : La jeunesse lougatoise au cœur du changement et du développement. Organisé par le CEJ (cej152016@gmail.com)." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                blue: "#2260CF",
+                "blue-dark": "#18479E",
+                "blue-light": "#EBF2FF",
+                orange: "#FA5A04",
+                "orange-dark": "#D14700",
+                "orange-light": "#FFF0E6",
+                dark: "#101828",
+                gray: "#F5F8FF",
+                subtle: "#667085"
+              }
+            },
+            fontFamily: {
+              heading: ["'Space Grotesk'", "sans-serif"],
+              body: ["'Inter'", "sans-serif"]
+            },
+            boxShadow: {
+              'glow-blue': '0 0 25px rgba(34, 96, 207, 0.35)',
+              'glow-orange': '0 0 25px rgba(250, 90, 4, 0.35)',
+              'card': '0 10px 30px -5px rgba(16, 24, 40, 0.08)',
+              'card-hover': '0 20px 40px -10px rgba(34, 96, 207, 0.15)',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- React 18 & Babel Standalone for direct browser preview -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide Icons UMD -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+      h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #F5F8FF; }
+      ::-webkit-scrollbar-thumb { background: #2260CF; border-radius: 4px; }
+    </style>
+  </head>
+  <body class="bg-brand-gray text-brand-dark antialiased selection:bg-brand-blue selection:text-white overflow-x-hidden">
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useCallback } = React;
+
+      // Official Contact Details
+      const CONTACT_PHONES = "77 789 93 27 / 76 614 18 06";
+      const CONTACT_EMAIL = "cej152016@gmail.com";
+      const WHATSAPP_LINK = "https://wa.me/221777899327";
+
+      // Official Logo & Parrain from public/Images Done
+      const LOGO_OFFICIEL = "public/Images Done/Logo de la semaine.png";
+      const PARRAIN_PHOTO = "public/Images Done/parrain.jpeg";
+
+      // Real User Images from public/Images Done
+      const USER_IMAGES = [
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.51.15 (1).jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.51.25.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.51.30.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.51.36.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.51.41.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.51.57.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.52.05.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.52.10.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.52.18.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-04 at 07.52.58.jpeg",
+        "public/Images Done/WhatsApp Image 2026-08-26 at 19.53.26 (1).jpeg",
+        "public/Images Done/WhatsApp Image 2026-08-26 at 19.53.26.jpeg",
+        "public/Images Done/WhatsApp Image 2026-08-26 at 19.53.27 (1).jpeg",
+        "public/Images Done/WhatsApp Image 2026-08-26 at 19.53.27.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-02 at 11.41.13 (1).jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-02 at 11.41.13.jpeg",
+        "public/Images Done/WhatsApp Image 2026-09-02 at 12.17.37.jpeg"
+      ];
+
+      const POSTER_HERO = "../AFFICHE OFFICIELLE SJ 2026.png";
+      const POSTER_PROGRAM = "../Programme sj.png";
+      const POSTER_JYSERAI = "../J'y serai.png";
+
+      // Custom SVG Social Icons
+      const FacebookIcon = ({ size = 20, className = "" }) => (
+        <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+        </svg>
+      );
+
+      const InstagramIcon = ({ size = 20, className = "" }) => (
+        <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+        </svg>
+      );
+
+      const TikTokIcon = ({ size = 20, className = "" }) => (
+        <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-1.18c.27 0 .54.04.8.1V9.38a6.34 6.34 0 0 0-.8-.05A6.33 6.33 0 1 0 15.8 15.6V8.9a8.27 8.27 0 0 0 4.84 1.56V7c-.36 0-.71-.1-1.05-.31z" />
+        </svg>
+      );
+
+      const WhatsAppIcon = ({ size = 20, className = "" }) => (
+        <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.99c-.002 5.45-4.437 9.887-9.885 9.887m0-18.066c-6.52 0-11.822 5.302-11.825 11.823 0 2.083.542 4.116 1.572 5.9L0 24l6.326-1.659a11.78 11.78 0 005.719 1.482h.005c6.521 0 11.825-5.304 11.827-11.825.002-3.16-1.228-6.13-3.461-8.364A11.77 11.77 0 0012.051 3.72" />
+        </svg>
+      );
+
+      // Data Definitions from TDR PDF
+      const PROGRAM_DAYS = [
+        { day: 1, label: "Jour 1", date: "Dimanche 20 Sept" },
+        { day: 2, label: "Jour 2", date: "Lundi 21 Sept" },
+        { day: 3, label: "Jour 3", date: "Mardi 22 Sept" },
+        { day: 4, label: "Jour 4", date: "Mercredi 23 Sept" },
+        { day: 5, label: "Jour 5", date: "Jeudi 24 Sept" },
+        { day: 6, label: "Jour 6", date: "Vendredi 25 Sept" },
+        { day: 7, label: "Jour 7", date: "Samedi 26 Sept" },
+      ];
+
+      // Exact Schedule from TDR PDF
+      const PROGRAM_DATA = [
+        { id: "p1", dayNumber: 1, dateStr: "Dimanche 20 Sept 2026", timeStr: "Matin (08:30)", title: "Grande Randonnée Pédestre", category: "Sport", location: "Départ : Gouvernance — Arrivée : Mairie", speaker: "Commission d'Organisation", description: "Grande marche citoyenne autour du thème officiel : 'La jeunesse lougatoise au cœur du changement et du développement'.", featured: true },
+        { id: "p2", dayNumber: 1, dateStr: "Dimanche 20 Sept 2026", timeStr: "Nuit (20:30)", title: "Grand Feu de Joie & Animation de la Jeunesse", category: "Culture", location: "CDEPS de Louga", speaker: "CEJ, Mouvements à Foulards & Daahiras", description: "Animation culturelle, prestations folkloriques et divertissement de la jeunesse.", featured: false },
+        { id: "p3", dayNumber: 2, dateStr: "Lundi 21 Sept 2026", timeStr: "Matin (09:00)", title: "3 Panels Thématiques, Stands & Dépistage VIH", category: "Conférence", location: "Mairie de Louga", speaker: "Experts, Décideurs & Partenaires", description: "Panels : 1. 'Quelles opportunités pour la jeunesse lougatoise ?' | 2. 'Jeunes et Gouvernance Locale : Comment influencer les décisions ?' avec stands d'exposition et dépistage gratuit.", featured: true },
+        { id: "p4", dayNumber: 2, dateStr: "Lundi 21 Sept 2026", timeStr: "Soir (16:00)", title: "Formation Pratique au Secourisme", category: "Citoyenneté", location: "Croix-Rouge de Louga", speaker: "Croix-Rouge Sénégalaise", description: "Initiation et formation certifiante aux gestes de premiers secours.", featured: false },
+        { id: "p5", dayNumber: 3, dateStr: "Mardi 22 Sept 2026", timeStr: "Matin (08:30)", title: "Journée d'Investissement Humain & Reboisement", category: "Citoyenneté", location: "Commune de Louga", speaker: "Service des Eaux et Forêts & Associations", description: "Thème 3 : 'Louga Face au Défi Climatique : Le rôle de la jeunesse dans le reboisement et la gestion des ressources naturelles'.", featured: true },
+        { id: "p6", dayNumber: 3, dateStr: "Mardi 22 Sept 2026", timeStr: "Soir (16:30)", title: "Match de Gala : Associations vs Institutions", category: "Sport", location: "Complexe Omar Bongo", speaker: "Comité d'Organisation", description: "Match de football d'exhibition favorisant la cohésion sociale entre jeunes et autorités.", featured: false },
+        { id: "p7", dayNumber: 4, dateStr: "Mercredi 23 Sept 2026", timeStr: "Matin (09:00)", title: "Masterclass Orientation Étudiants & Ndamli Hub", category: "Conférence", location: "Centre Culturel Régional", speaker: "Orientation Universitaire & Ndamli Hub", description: "Orientation des nouveaux bacheliers et présentation de la plateforme d'innovation Ndamli Hub.", featured: true },
+        { id: "p8", dayNumber: 4, dateStr: "Mercredi 23 Sept 2026", timeStr: "Matin (09:30)", title: "Formation Transformation Fruits & Légumes (20 Jeunes)", category: "Entreprenariat", location: "Maison du Développement Local", speaker: "Formateurs Spécialisés", description: "Session pratique de transformation agro-alimentaire pour 20 jeunes entrepreneurs de Louga.", featured: false },
+        { id: "p9", dayNumber: 4, dateStr: "Mercredi 23 Sept 2026", timeStr: "Soir (16:00)", title: "Formation en Création de Contenu Digital pour les Associations", category: "Entreprenariat", location: "AcDev Louga", speaker: "Spécialistes Média & Digital", description: "Thème 5 : 'La Jeunesse Lougatoise à l'ère du Digital : Créer, Innover et Valoriser notre Culture'.", featured: true },
+        { id: "p10", dayNumber: 5, dateStr: "Jeudi 24 Sept 2026", timeStr: "Toute la journée", title: "Consultations Médicales Gratuites & Sensibilisation Santé", category: "Citoyenneté", location: "Mairie de Nguidile", speaker: "Personnel de Santé & Sages-Femmes", description: "Thème 4 : 'SANTÉ ET BIEN-ÊTRE' — Consultations médicales gratuites et sensibilisation sur la santé de la reproduction.", featured: true },
+        { id: "p11", dayNumber: 6, dateStr: "Vendredi 25 Sept 2026", timeStr: "Toute la journée", title: "Formation : La Gestion des Collectivités Locales & Rôle de la Jeunesse", category: "Conférence", location: "Mairie de Louga", speaker: "Experts en Décentralisation", description: "Renforcement de capacités des jeunes leaders sur le fonctionnement des collectivités territoriales.", featured: true },
+        { id: "p12", dayNumber: 7, dateStr: "Samedi 26 Sept 2026", timeStr: "Soir (17:00)", title: "Cérémonie de Clôture & Remise du Cahier de Doléances", category: "Conférence", location: "Centre Culturel Régional", speaker: "M. Moustapha Diop & CEJ Louga", description: "Clôture officielle, remise du cahier de recommandations de la jeunesse aux décideurs.", featured: true },
+        { id: "p13", dayNumber: 7, dateStr: "Samedi 26 Sept 2026", timeStr: "Nuit (21:00)", title: "Grand Dîner de Gala de la Jeunesse", category: "Culture", location: "Louga", speaker: "Comité d'Organisation", description: "Soirée d'honneur et dîner de gala célébrant la réussite de l'édition 2026.", featured: true }
+      ];
+
+      // Gallery with all 17 real user images from public/Images Done + generated HD Slam image
+      const SLAM_AI_IMAGE = "file:///C:/Users/pc/.gemini/antigravity/brain/590fa7f5-1f08-4e04-a0f8-511252d0280c/slam_poesie_theatre_1788545286297.jpg";
+
+      const GALLERY_DATA = USER_IMAGES.map((img, idx) => ({
+        id: `g${idx+1}`,
+        title: [
+          "Cérémonie Officielle d'Ouverture & Carnaval des Jeunes",
+          "Forum de l'Entreprenariat & Pitch Startup",
+          "Tournoi Inter-Quartiers de Football",
+          "Masterclass Numérique & Formations Tech",
+          "Opération Reboisement Eco-Citoyen Louga Vert",
+          "Panels & Débats de la Jeunesse",
+          "Grand Concert Solidaire de Louga",
+          "Concours Slam, Poésie & Théâtre Monologue",
+          "Salon de l'Orientation Professionnelle",
+          "Ateliers d'Expression Artistique & Slam",
+          "Mobilisation de la Jeunesse du Ndiambour",
+          "Ateliers Pratiques & Masterclasses",
+          "Compétitions Sportives & Esprit d'Équipe",
+          "Projets d'Innovation & Startups",
+          "Rencontre avec les Intervenants",
+          "Célébrations Culturelles & Musique",
+          "Remise des Trophées et Clôture Officielle"
+        ][idx % 17],
+        category: ["Cérémonies", "Entreprenariat", "Sport", "Conférences", "Citoyenneté", "Conférences", "Culture", "Culture", "Conférences", "Culture", "Cérémonies", "Conférences", "Sport", "Entreprenariat", "Conférences", "Culture", "Cérémonies"][idx % 17],
+        date: "20-26 Sept 2026",
+        location: "Louga, Sénégal",
+        imageUrl: idx === 7 ? SLAM_AI_IMAGE : img,
+        description: "Image officielle capturée lors du concours de slam, poésie et théâtre monologue à Louga."
+      }));
+
+      // Countdown Component
+      function Countdown() {
+        const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+        useEffect(() => {
+          const target = new Date('2026-09-20T00:00:00').getTime();
+          const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            if (diff > 0) {
+              setTime({
+                days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((diff % (1000 * 60)) / 1000)
+              });
+            }
+          }, 1000);
+          return () => clearInterval(timer);
+        }, []);
+
+        return (
+          <div className="w-full glass-card p-6 rounded-3xl shadow-card border border-white/60">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-brand-orange animate-ping"></span>
+                <span className="font-heading font-bold text-brand-dark text-sm sm:text-base">Compte à rebours officiel</span>
+              </div>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-blue bg-blue-50 px-2.5 py-1 rounded-full">Louga 2026</span>
+            </div>
+
+            <div className="grid grid-cols-4 gap-3 text-center">
+              <div className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+                <div className="text-2xl sm:text-4xl font-heading font-black text-brand-blue">{String(time.days).padStart(2, '0')}</div>
+                <div className="text-[10px] sm:text-xs font-semibold uppercase text-brand-subtle">Jours</div>
+              </div>
+              <div className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+                <div className="text-2xl sm:text-4xl font-heading font-black text-brand-orange">{String(time.hours).padStart(2, '0')}</div>
+                <div className="text-[10px] sm:text-xs font-semibold uppercase text-brand-subtle">Heures</div>
+              </div>
+              <div className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+                <div className="text-2xl sm:text-4xl font-heading font-black text-brand-blue">{String(time.minutes).padStart(2, '0')}</div>
+                <div className="text-[10px] sm:text-xs font-semibold uppercase text-brand-subtle">Mins</div>
+              </div>
+              <div className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+                <div className="text-2xl sm:text-4xl font-heading font-black text-brand-orange">{String(time.seconds).padStart(2, '0')}</div>
+                <div className="text-[10px] sm:text-xs font-semibold uppercase text-brand-subtle">Secs</div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // App Component
+      function App() {
+        const [isScrolled, setIsScrolled] = useState(false);
+        const [mobileOpen, setMobileOpen] = useState(false);
+        const [selectedDay, setSelectedDay] = useState('all');
+        const [selectedCat, setSelectedCat] = useState('all');
+        const [modalProgram, setModalProgram] = useState(null);
+        const [lightboxIndex, setLightboxIndex] = useState(null);
+
+        const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', subject: 'Inscription', message: '' });
+        const [contactSuccess, setContactSuccess] = useState(false);
+
+        useEffect(() => {
+          const onScroll = () => setIsScrolled(window.scrollY > 40);
+          window.addEventListener('scroll', onScroll);
+          return () => window.removeEventListener('scroll', onScroll);
+        }, []);
+
+        const filteredProgram = PROGRAM_DATA.filter(item => {
+          const mDay = selectedDay === 'all' || item.dayNumber === Number(selectedDay);
+          const mCat = selectedCat === 'all' || item.category === selectedCat;
+          return mDay && mCat;
+        });
+
+        const handleContactSubmit = (e) => {
+          e.preventDefault();
+          setContactSuccess(true);
+          setTimeout(() => setContactSuccess(false), 5000);
+          setContactForm({ name: '', email: '', phone: '', subject: 'Inscription', message: '' });
+        };
+
+        return (
+          <div className="min-h-screen flex flex-col">
+            {/* Header */}
+            <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-nav shadow-sm py-3 border-b border-gray-100' : 'bg-transparent py-5'}`}>
+              <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+                <a href="#hero" className="flex items-center gap-3">
+                  <img src={LOGO_OFFICIEL} alt="Logo Officiel" className="h-12 w-auto object-contain" />
+                  <div>
+                    <span className="font-heading font-extrabold text-lg block text-brand-dark leading-none">Jeunesse Lougatoise</span>
+                    <span className="text-[10px] font-bold tracking-wider text-brand-orange uppercase">20-26 Sept 2026 • Louga</span>
+                  </div>
+                </a>
+
+                <nav className="hidden lg:flex items-center gap-2">
+                  <a href="#hero" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2">Accueil</a>
+                  <a href="#about" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2">À propos</a>
+                  <a href="#theme" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2">Thème</a>
+                  <a href="#program" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2">Programme</a>
+                  <a href="#parrain" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2">Parrain</a>
+                  <a href="#slam" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2 text-brand-orange font-bold">🎭 Slam & Théâtre</a>
+                  <a href="#gallery" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2">Galerie</a>
+                  <a href="#contact" className="text-xs font-semibold text-brand-dark/80 hover:text-brand-blue px-3 py-2">Contact</a>
+                </nav>
+
+                <div className="hidden lg:block">
+                  <a href="#contact" className="bg-brand-orange hover:bg-brand-orange-dark text-white text-xs font-bold px-5 py-2.5 rounded-full shadow-md transition-colors">
+                    S'inscrire
+                  </a>
+                </div>
+
+                <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 text-brand-dark">
+                  {mobileOpen ? '✕' : '☰'}
+                </button>
+              </div>
+
+              {mobileOpen && (
+                <div className="lg:hidden bg-white border-b border-gray-200 p-6 flex flex-col gap-3">
+                  <a href="#hero" onClick={() => setMobileOpen(false)} className="text-sm font-semibold">Accueil</a>
+                  <a href="#about" onClick={() => setMobileOpen(false)} className="text-sm font-semibold">À propos</a>
+                  <a href="#theme" onClick={() => setMobileOpen(false)} className="text-sm font-semibold">Thème</a>
+                  <a href="#program" onClick={() => setMobileOpen(false)} className="text-sm font-semibold">Programme</a>
+                  <a href="#parrain" onClick={() => setMobileOpen(false)} className="text-sm font-semibold">Parrain</a>
+                  <a href="#slam" onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-brand-orange font-bold">🎭 Slam & Théâtre</a>
+                  <a href="#gallery" onClick={() => setMobileOpen(false)} className="text-sm font-semibold">Galerie</a>
+                  <a href="#contact" onClick={() => setMobileOpen(false)} className="text-sm font-semibold">Contact</a>
+                </div>
+              )}
+            </header>
+
+            {/* Hero Section */}
+            <section id="hero" className="pt-28 md:pt-36 pb-16 bg-gradient-to-b from-blue-50/70 via-white to-brand-gray">
+              <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div className="lg:col-span-7 space-y-5">
+                  <div className="inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                    <img src={LOGO_OFFICIEL} alt="Logo CEJ" className="h-6 w-auto" />
+                    <span className="text-xs font-bold text-brand-blue uppercase tracking-wider">
+                      Organisé par le Club des Enfants et Jeunes (CEJ)
+                    </span>
+                  </div>
+                  <h1 className="font-heading font-black text-4xl sm:text-6xl text-brand-dark leading-tight">
+                    Semaine de la <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-orange">
+                      Jeunesse Lougatoise
+                    </span>
+                  </h1>
+
+                  <div className="inline-flex items-center gap-3 bg-white p-3 rounded-2xl border border-gray-100 text-xs font-semibold text-brand-dark shadow-sm">
+                    <span className="text-brand-orange">📅 Du 20 au 26 Septembre 2026</span>
+                    <span>|</span>
+                    <span>📍 Département de Louga</span>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-900/5 to-orange-500/5 border-l-4 border-brand-orange">
+                    <p className="text-[10px] font-bold uppercase text-brand-orange tracking-widest">Thème Officiel TDR 2026</p>
+                    <p className="font-heading font-bold text-base sm:text-lg italic text-brand-dark">
+                      « La jeunesse lougatoise au cœur du changement et du développement »
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <a href="#program" className="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-2xl shadow-md">
+                      Voir le Agenda Officiel (TDR)
+                    </a>
+                    <a href="#contact" className="bg-white hover:bg-gray-50 text-brand-dark font-bold text-xs sm:text-sm px-6 py-3 rounded-2xl border border-gray-200 shadow-sm">
+                      Rejoindre l'événement
+                    </a>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-5 space-y-6">
+                  <Countdown />
+                  <div className="rounded-3xl overflow-hidden shadow-xl border-4 border-white aspect-[4/3] relative group bg-black">
+                    <img src={POSTER_HERO} alt="Affiche Officielle SJ 2026" className="w-full h-full object-contain" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent flex items-end p-5 text-white pointer-events-none">
+                      <div>
+                        <span className="bg-brand-orange text-white text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full mb-1 inline-block">Affiche Officielle</span>
+                        <h3 className="font-heading font-bold text-base">Semaine de la Jeunesse Lougatoise 2026</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* About Section */}
+            <section id="about" className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="text-center max-w-3xl mx-auto mb-12">
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-brand-orange bg-orange-50 px-3.5 py-1 rounded-full">Objectifs des TDR</span>
+                  <h2 className="font-heading font-bold text-3xl text-brand-dark mt-2">Plus de 60% de la population de Louga mobilisée !</h2>
+                  <p className="text-xs sm:text-sm text-brand-subtle mt-2">
+                    Organisé par le Club des Enfants et des Jeunes (CEJ) avec les associations, les Daahiras, les amicales d'étudiants et les mouvements à foulards de Louga.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-12">
+                  <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-200 aspect-[4/3] bg-gray-100">
+                    <img src={USER_IMAGES[0]} alt="Jeunesse de Louga" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="font-heading font-bold text-2xl text-brand-dark">Engagements et Résultats Attendus</h3>
+                    <p className="text-xs sm:text-sm text-brand-subtle leading-relaxed">
+                      La Semaine de la Jeunesse Lougatoise rassemble les acteurs pour aborder l'employabilité, le secourisme, le reboisement, le digital et la santé.
+                    </p>
+                    <div className="grid grid-cols-2 gap-3 pt-2">
+                      <div className="bg-brand-gray p-3 rounded-xl border border-gray-100 text-xs font-semibold text-brand-dark">🎯 1 000 Jeunes Sensibilisés</div>
+                      <div className="bg-brand-gray p-3 rounded-xl border border-gray-100 text-xs font-semibold text-brand-dark">🗣️ 2 Panels & Cahier de Doléances</div>
+                      <div className="bg-brand-gray p-3 rounded-xl border border-gray-100 text-xs font-semibold text-brand-dark">🎓 Formations Secourisme & Digital</div>
+                      <div className="bg-brand-gray p-3 rounded-xl border border-gray-100 text-xs font-semibold text-brand-dark">🌳 Reboisement & Consultations Gratuites</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                  <div className="bg-brand-gray p-6 rounded-2xl border border-gray-100">
+                    <div className="w-10 h-10 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center font-bold mx-auto mb-3">01</div>
+                    <h3 className="font-heading font-bold text-lg text-brand-dark mb-1">Employabilité & Formation</h3>
+                    <p className="text-xs text-brand-subtle">Orientation des bacheliers, transformation fruits/légumes et création de contenu digital.</p>
+                  </div>
+                  <div className="bg-brand-gray p-6 rounded-2xl border border-gray-100">
+                    <div className="w-10 h-10 rounded-full bg-brand-orange/10 text-brand-orange flex items-center justify-center font-bold mx-auto mb-3">02</div>
+                    <h3 className="font-heading font-bold text-lg text-brand-dark mb-1">Santé & Bien-être</h3>
+                    <p className="text-xs text-brand-subtle">Consultations gratuites à Nguidile, dépistage VIH et sensibilisation à la santé de la reproduction.</p>
+                  </div>
+                  <div className="bg-brand-gray p-6 rounded-2xl border border-gray-100">
+                    <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mx-auto mb-3">03</div>
+                    <h3 className="font-heading font-bold text-lg text-brand-dark mb-1">Écologie & Citoyenneté</h3>
+                    <p className="text-xs text-brand-subtle">Randonnée pédestre, reboisement 'Louga Vert' et match de gala des institutions.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Theme Section */}
+            <section id="theme" className="py-16 bg-brand-dark text-white relative overflow-hidden">
+              <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-7">
+                  <span className="bg-brand-orange text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-full">Thème Officiel TDR</span>
+                  <h2 className="font-heading font-black text-3xl sm:text-5xl mt-4 leading-tight">
+                    « La jeunesse lougatoise au cœur du changement et du développement »
+                  </h2>
+                  <p className="text-gray-300 text-sm sm:text-base mt-4 leading-relaxed">
+                    Un cadre fédérateur permettant aux associations, Daahiras, amicales et mouvements de jeunesse de porter collectivement des propositions pour le département de Louga.
+                  </p>
+                </div>
+                <div className="lg:col-span-5">
+                  <div className="rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl bg-black aspect-[4/3]">
+                    <img src={POSTER_JYSERAI} alt="Affiche J'y Serai SJ 2026" className="w-full h-full object-contain" />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Program Section (Agenda Officiel des TDR) */}
+            <section id="program" className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="text-center max-w-2xl mx-auto mb-10">
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-brand-blue bg-blue-50 px-3.5 py-1 rounded-full">Agenda Officiel des TDR</span>
+                  <h2 className="font-heading font-bold text-3xl text-brand-dark mt-2">Programme du 20 au 26 Septembre 2026</h2>
+                </div>
+
+                {/* Poster image showcase */}
+                <div className="mb-10 rounded-3xl overflow-hidden shadow-lg border border-gray-200 max-w-3xl mx-auto bg-black">
+                  <img src={POSTER_PROGRAM} alt="Affiche du Programme SJ 2026" className="w-full h-auto object-contain max-h-[500px]" />
+                </div>
+
+                {/* Day selector */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-8">
+                  <button onClick={() => setSelectedDay('all')} className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap ${selectedDay === 'all' ? 'bg-brand-blue text-white' : 'bg-brand-gray text-brand-dark'}`}>
+                    Tous les jours
+                  </button>
+                  {PROGRAM_DAYS.map(d => (
+                    <button key={d.day} onClick={() => setSelectedDay(String(d.day))} className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap ${selectedDay === String(d.day) ? 'bg-brand-blue text-white' : 'bg-brand-gray text-brand-dark'}`}>
+                      {d.label} • {d.date}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {filteredProgram.map(item => (
+                    <div key={item.id} className="bg-brand-gray p-6 rounded-3xl border border-gray-200 flex flex-col justify-between hover:border-brand-blue/40 transition-colors">
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="bg-white border text-[11px] font-bold px-2.5 py-0.5 rounded-full text-brand-blue">{item.category}</span>
+                          <span className="text-[11px] font-bold text-gray-500">Jour {item.dayNumber}</span>
+                        </div>
+                        <h3 className="font-heading font-bold text-lg text-brand-dark mb-2">{item.title}</h3>
+                        <p className="text-xs text-brand-subtle mb-2 font-medium">🕒 {item.timeStr}</p>
+                        <p className="text-xs text-brand-dark mb-3 font-semibold">📍 {item.location}</p>
+                        <p className="text-xs text-brand-subtle leading-relaxed line-clamp-3">{item.description}</p>
+                      </div>
+                      <button onClick={() => setModalProgram(item)} className="mt-4 text-xs font-bold text-brand-blue hover:text-brand-orange text-left">
+                        Voir la fiche TDR →
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Parrain Section with Official Photo 'parrain.jpeg' */}
+            <section id="parrain" className="py-16 bg-brand-gray">
+              <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-5">
+                  <div className="rounded-3xl overflow-hidden shadow-xl border-4 border-white aspect-[4/5] relative bg-gray-900">
+                    <img src={PARRAIN_PHOTO} alt="M. Moustapha Diop - Parrain Officiel" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-transparent to-transparent flex items-end p-6 text-white">
+                      <div>
+                        <span className="bg-brand-orange text-white text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full mb-1 inline-block">Parrain Officiel</span>
+                        <h3 className="font-heading font-bold text-xl">M. Moustapha Diop</h3>
+                        <p className="text-xs text-white/90">Maire de la Ville de Louga</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-7 space-y-6">
+                  <span className="bg-brand-blue-light text-brand-blue text-[11px] font-extrabold uppercase px-3.5 py-1 rounded-full">Haut Parrainage Municipal</span>
+                  <h2 className="font-heading font-bold text-3xl text-brand-dark">Le Mot du Parrain</h2>
+
+                  <div className="bg-white p-6 sm:p-8 rounded-3xl border-l-4 border-brand-orange shadow-sm">
+                    <p className="font-heading font-bold text-xl text-brand-dark italic">
+                      « Soutenir la jeunesse, c'est investir dans l'avenir de notre communauté. »
+                    </p>
+                    <p className="text-xs text-brand-blue font-bold mt-3">— M. Moustapha Diop, Maire de Louga</p>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-brand-subtle leading-relaxed">
+                    En tant que Parrain Officiel, M. Moustapha Diop réaffirme son soutien aux initiatives du Club des Enfants et des Jeunes (CEJ) pour appuyer l'employabilité, la formation et l'engagement citoyen de la jeunesse du département de Louga.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Event Focus: Concours Slam, Poésie & Théâtre Monologue */}
+            <section id="slam" className="py-16 bg-gradient-to-br from-purple-950 via-brand-dark to-slate-900 text-white relative overflow-hidden">
+              <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-6 space-y-5">
+                  <div className="inline-flex items-center gap-2 bg-brand-orange text-white text-[11px] font-extrabold uppercase px-3.5 py-1 rounded-full shadow-md">
+                    <span>🎭 Événement Phare • Arts & Éloquence</span>
+                  </div>
+                  <h2 className="font-heading font-black text-3xl sm:text-4xl text-white leading-tight">
+                    Concours Régional de Slam, Poésie & Théâtre Monologue
+                  </h2>
+                  <p className="text-sm text-gray-200 leading-relaxed">
+                    L'art de la parole et la scène théâtrale à l'honneur ! Compétition artistique majeure réunissant les jeunes poètes, slameurs et comédiens du département de Louga autour de thématiques citoyennes, d'engagement, de poésie wolof & française et de monologue.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <div className="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-xs">
+                      <span className="font-bold text-brand-orange block mb-0.5">🏆 Grand Prix de la Créativité</span>
+                      <span className="text-gray-200">Prix de la Meilleure Prestation Théâtrale & Slam</span>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-xs">
+                      <span className="font-bold text-brand-orange block mb-0.5">📅 Date & Heure</span>
+                      <span className="text-gray-200">Mercredi 23 & Jeudi 24 Septembre • 20h30</span>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-xs">
+                      <span className="font-bold text-brand-orange block mb-0.5">📍 Lieu de l'Événement</span>
+                      <span className="text-gray-200">Centre Culturel Régional de Louga</span>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-xs">
+                      <span className="font-bold text-brand-orange block mb-0.5">🎤 Disciplines Révélées</span>
+                      <span className="text-gray-200">Slam poétique, Poésie & Monologues scéniques</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-6">
+                  <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 aspect-[4/3] relative group bg-black cursor-pointer" onClick={() => setLightboxIndex(7)}>
+                    <img 
+                      src="file:///C:/Users/pc/.gemini/antigravity/brain/590fa7f5-1f08-4e04-a0f8-511252d0280c/slam_poesie_theatre_1788545286297.jpg" 
+                      onError={(e) => { e.target.onerror = null; e.target.src = "public/Images Done/WhatsApp Image 2026-09-04 at 07.52.58.jpeg"; }}
+                      alt="Concours Slam Poésie et Théâtre Monologue à Louga" 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex items-end p-6">
+                      <div className="flex items-center justify-between w-full">
+                        <div>
+                          <span className="bg-brand-orange text-white text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full mb-1 inline-block">Image HD Générée • Arts & Scène</span>
+                          <h4 className="font-heading font-bold text-lg text-white">Concours de Slam, Poésie & Monologue</h4>
+                        </div>
+                        <span className="bg-white/20 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/30">Agrandir 🔍</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Gallery Section */}
+            <section id="gallery" className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="text-center max-w-2xl mx-auto mb-10">
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-brand-blue bg-blue-50 px-3.5 py-1 rounded-full">Galerie Photos Officielle</span>
+                  <h2 className="font-heading font-bold text-3xl text-brand-dark mt-2">Les Photos de la Semaine</h2>
+                  <p className="text-xs text-brand-subtle mt-1">Découvrez la sélection de vos photos officielles de la Semaine de la Jeunesse Lougatoise.</p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {GALLERY_DATA.map((img, idx) => (
+                    <div key={img.id} onClick={() => setLightboxIndex(idx)} className="rounded-3xl overflow-hidden shadow-sm border border-gray-200 aspect-[4/3] relative cursor-pointer group bg-gray-100">
+                      <img src={img.imageUrl} alt={img.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent flex items-end p-4 text-white">
+                        <div>
+                          <span className="bg-brand-orange text-white text-[9px] font-bold uppercase px-2 py-0.5 rounded-full mb-1 inline-block">{img.category}</span>
+                          <h4 className="font-heading font-bold text-sm leading-snug">{img.title}</h4>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Contact Section with Official Phone & Email */}
+            <section id="contact" className="py-16 bg-brand-gray">
+              <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="lg:col-span-7 bg-white p-8 rounded-3xl border border-gray-200 shadow-sm">
+                  <h3 className="font-heading font-bold text-2xl text-brand-dark mb-4">Contact & Inscription</h3>
+
+                  {contactSuccess ? (
+                    <div className="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl text-emerald-800 text-center">
+                      <p className="font-bold text-lg">✅ Message envoyé avec succès !</p>
+                      <p className="text-xs mt-1">Merci de votre intérêt. Le comité d'organisation du CEJ vous recontactera rapidement.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleContactSubmit} className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="text" required placeholder="Votre nom complet" value={contactForm.name} onChange={e => setContactForm({...contactForm, name: e.target.value})} className="w-full bg-brand-gray border rounded-xl px-4 py-3 text-xs" />
+                        <input type="email" required placeholder="Votre email" value={contactForm.email} onChange={e => setContactForm({...contactForm, email: e.target.value})} className="w-full bg-brand-gray border rounded-xl px-4 py-3 text-xs" />
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="tel" placeholder="Téléphone (WhatsApp)" value={contactForm.phone} onChange={e => setContactForm({...contactForm, phone: e.target.value})} className="w-full bg-brand-gray border rounded-xl px-4 py-3 text-xs" />
+                        <select value={contactForm.subject} onChange={e => setContactForm({...contactForm, subject: e.target.value})} className="w-full bg-brand-gray border rounded-xl px-4 py-3 text-xs">
+                          <option value="Inscription">Inscription Générale</option>
+                          <option value="Formation Secourisme">Formation Secourisme (Croix-Rouge)</option>
+                          <option value="Formation Digital">Formation Création Contenu Digital</option>
+                          <option value="Formation Agro">Formation Transformation Fruits & Légumes</option>
+                          <option value="Bénévolat">Devenir Bénévolat / Volontaire</option>
+                        </select>
+                      </div>
+                      <textarea required rows={4} placeholder="Votre message..." value={contactForm.message} onChange={e => setContactForm({...contactForm, message: e.target.value})} className="w-full bg-brand-gray border rounded-xl px-4 py-3 text-xs" />
+                      <button type="submit" className="w-full bg-brand-orange hover:bg-brand-orange-dark text-white font-bold text-xs py-3.5 rounded-xl shadow-md">
+                        Envoyer le message
+                      </button>
+                    </form>
+                  )}
+                </div>
+
+                <div className="lg:col-span-5 space-y-6">
+                  <div className="bg-brand-blue text-white p-8 rounded-3xl shadow-md space-y-4">
+                    <div className="flex items-center gap-3">
+                      <img src={LOGO_OFFICIEL} alt="Logo" className="h-8 w-auto bg-white p-1 rounded-lg" />
+                      <h3 className="font-heading font-bold text-xl">Coordonnées Officielles</h3>
+                    </div>
+                    <p className="text-xs">📍 Hôtel de Ville & CDEPS, Louga, Sénégal</p>
+                    <p className="text-xs font-semibold">📞 Téléphones : {CONTACT_PHONES}</p>
+                    <p className="text-xs font-semibold">✉️ Email : {CONTACT_EMAIL}</p>
+                    <div className="flex items-center gap-3 pt-3">
+                      <a href="https://facebook.com" target="_blank" className="p-2 rounded-xl bg-white/10"><FacebookIcon size={18} /></a>
+                      <a href="https://instagram.com" target="_blank" className="p-2 rounded-xl bg-white/10"><InstagramIcon size={18} /></a>
+                      <a href="https://tiktok.com" target="_blank" className="p-2 rounded-xl bg-white/10"><TikTokIcon size={18} /></a>
+                      <a href={WHATSAPP_LINK} target="_blank" className="p-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg shadow-sm"><WhatsAppIcon size={16} /> WhatsApp Direct</a>
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl overflow-hidden h-48 border border-gray-200">
+                    <iframe title="Carte Louga" width="100%" height="100%" frameBorder="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-16.2500%2C15.6000%2C-16.1900%2C15.6400&amp;layer=mapnik&amp;marker=15.6186%2C-16.2244" />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="bg-brand-dark text-white py-10 border-t border-gray-800 text-center text-xs text-gray-400">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <img src={LOGO_OFFICIEL} alt="Logo Footer" className="h-8 w-auto bg-white p-1 rounded-lg" />
+                <span className="font-heading font-bold text-sm text-white">Semaine de la Jeunesse Lougatoise • CEJ Louga</span>
+              </div>
+              <p className="mb-1">Contacts : {CONTACT_PHONES} | Email : {CONTACT_EMAIL}</p>
+              <p>© 2026 Semaine de la Jeunesse Lougatoise. Fait avec passion pour Louga, Sénégal.</p>
+            </footer>
+
+            {/* Modals */}
+            {modalProgram && (
+              <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+                <div className="bg-white rounded-3xl max-w-md w-full p-6 text-brand-dark relative">
+                  <button onClick={() => setModalProgram(null)} className="absolute top-4 right-4 text-gray-500 font-bold">✕</button>
+                  <span className="text-[10px] font-bold bg-blue-100 text-brand-blue px-2.5 py-0.5 rounded-full">{modalProgram.category}</span>
+                  <h3 className="font-heading font-bold text-xl mt-2">{modalProgram.title}</h3>
+                  <p className="text-xs font-semibold text-brand-orange mt-2">🕒 {modalProgram.timeStr}</p>
+                  <p className="text-xs font-semibold text-brand-dark mt-1">📍 {modalProgram.location}</p>
+                  {modalProgram.speaker && <p className="text-xs text-gray-500 mt-1">👤 Responsables : {modalProgram.speaker}</p>}
+                  <p className="text-xs text-brand-dark mt-4 leading-relaxed bg-brand-gray p-3 rounded-xl border border-gray-100">{modalProgram.description}</p>
+                </div>
+              </div>
+            )}
+
+            {lightboxIndex !== null && (
+              <div onClick={() => setLightboxIndex(null)} className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+                <div onClick={e => e.stopPropagation()} className="max-w-3xl w-full bg-brand-dark rounded-3xl overflow-hidden">
+                  <img src={GALLERY_DATA[lightboxIndex].imageUrl} alt="Grand format" className="w-full max-h-[75vh] object-contain bg-black" />
+                  <div className="p-4 text-white flex justify-between items-center">
+                    <div>
+                      <h4 className="font-heading font-bold text-base">{GALLERY_DATA[lightboxIndex].title}</h4>
+                      <p className="text-xs text-gray-400">{GALLERY_DATA[lightboxIndex].location}</p>
+                    </div>
+                    <button onClick={() => setLightboxIndex(null)} className="bg-white/20 text-white px-4 py-1.5 rounded-xl text-xs font-bold">Fermer</button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
